@@ -2,18 +2,21 @@
   <div class="categories">
     <h1>{{id ? '编辑' : '新建'}}文章</h1>
     <el-form label-width="120px" @submit.native.prevent="save">
-      <el-form-item label="上级分类">
-        <el-select v-model="model.parent" clearable placeholder="请选择">
+      <el-form-item label="所属分类">
+        <el-select v-model="model.categories" multiple placeholder="请选择">
           <el-option
-            v-for="item in parents"
+            v-for="item in categories"
             :key="item._id"
             :label="item.name"
-            :value="item._id">
-          </el-option>
+            :value="item._id"
+          ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="名称">
-        <el-input v-model="model.name"></el-input>
+      <el-form-item label="标题">
+        <el-input v-model="model.title"></el-input>
+      </el-form-item>
+      <el-form-item label="详情">
+        <vue-editor v-model="model.body" useCustomImageHandler @image-added="handleImageAdded"></vue-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor"
 
 export default {
   props: {
@@ -31,20 +35,32 @@ export default {
   data() {
     return {
       model: {},
-      parents: ''
+      categories: []
     }
   },
+  components: {
+    VueEditor
+  },
   methods: {
+    async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+ 
+      const formData = new FormData()
+      formData.append("file", file)
+      const res = await this.$http.post('/upload', formData)
+      let url = res.data.url; // Get url from response
+      Editor.insertEmbed(cursorLocation, "image", url)
+      resetUploader()
+    },
     async save() {
 
       // let res = null
       if (this.id) {
-        await this.$http.put(`/rest/categories/${this.id}`, this.model)
+        await this.$http.put(`/rest/articles/${this.id}`, this.model)
       }else{
-        await this.$http.post('/rest/categories', this.model)
+        await this.$http.post('/rest/articles', this.model)
       }
       // console.log(res)
-      this.$router.push('/categories/list')
+      this.$router.push('/articles/list')
       this.$message({
         type: 'success',
         showClose: true,
@@ -55,16 +71,16 @@ export default {
       
     },
     async fetch() {
-      const res = await this.$http.get(`/rest/categories/${this.id}`)
+      const res = await this.$http.get(`/rest/articles/${this.id}`)
       this.model = res.data
     },
-    async fetchParents() {
+    async fetchCategories() {
       const res = await this.$http.get('/rest/categories')
-      this.parents = res.data
+      this.categories = res.data
     }
   },
   created() {
-    this.fetchParents()
+    this.fetchCategories()
     this.id && this.fetch()
   }
 }

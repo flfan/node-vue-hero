@@ -34,7 +34,7 @@ export default {
       this.items = res.data;
     },
     remove(row) {
-      this.$confirm(`此操作将永久删除分类${row.name}, 是否继续?`, '提示', {
+      this.$confirm(`此操作将永久删除英雄"${row.name}", 是否继续?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
