@@ -12,7 +12,7 @@
         <button type="button" class="btn bg-primary">立即下载</button>
       </div>
     </div>
-    <div class="nav d-flex jc-around bg-primary text-white pt-3 pb-2">
+    <div class="nav nav-padding nav-invese jc-around bg-primary text-white pt-3 pb-2">
       <div class="nav-item active">
         <router-link tag="div" class="nav-link" to='/'>首页</router-link>
       </div>
@@ -26,3 +26,17 @@
     <router-view></router-view>
   </div>
 </template>
+
+<style lang="stylus" scoped>
+  .topbar
+    // position sticky
+    // top 0
+    z-index 99
+    position fixed
+    top 0
+    left 0
+    width 100%
+    height 3.5385rem
+  .nav-padding
+    padding-top 4.6154rem
+</style>

@@ -47,6 +47,9 @@ for sizekey, size in font-size
 .flex-column
   flex-direction column
 
+.flex-wrap
+  flex-wrap wrap
+
 for key, value in flex-jc
   .jc-{key}
     justify-content value
@@ -91,8 +94,32 @@ for typekey, type in $spacing-types
 
 // nav
 .nav
+  display flex
   .nav-item
     border-bottom 0.2rem solid transparent
     padding-bottom 0.2rem
     &.active
-      border-bottom 0.2rem solid white
+      border-color $colors.primary
+      color $colors.primary
+  &.nav-invese
+    .nav-item
+      color $colors.white
+      border-bottom 0.2rem solid transparent
+      padding-bottom 0.2rem
+      &.active
+        border-color $colors.white
+
+// sprite
+
+.sprite
+  display inline-block
+  background url(../images/index.png) no-repeat 0 0
+  background-size 28.8462rem 35rem
+  &.sprite-news
+    background-position  63.546% 15.517%
+    width: 1.7692rem
+    height: 1.5385rem
+  &.sprite-arrow
+    background-position  38.577% 52.076%
+    width: 0.7692rem
+    height: 0.7692rem
