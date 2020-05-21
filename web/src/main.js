@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Axios from 'axios'
 
 import './assets/style/style.styl'
 import './assets/iconfont/iconfont.css'
@@ -17,6 +18,10 @@ Vue.component('MCard', Card)
 
 Vue.config.productionTip = false
 
+const http = Axios.create({
+  baseURL: 'http://localhost:3000/web/api'
+})
+Vue.prototype.$http = http
 new Vue({
   router,
   render: h => h(App)

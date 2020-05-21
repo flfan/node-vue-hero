@@ -25,6 +25,12 @@ for colorKey, color in $colors
   .bg-{colorKey}
     background-color color
 // text
+.text-ellipsis
+  display inline-block
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+
 align = left, center, right
 for val in align
   .text-{val}

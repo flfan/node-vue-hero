@@ -6,5 +6,7 @@ module.exports = app => {
     useUnifiedTopology: true,
     useFindAndModify: false
   })
+
+  require('require-all')(__dirname + '/../models')
 }
 // useFindAndModify` option set to false are deprecated

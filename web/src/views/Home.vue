@@ -28,15 +28,15 @@
     <!-- nav icons end -->
     <m-list-card title="新闻资讯" icon="news" :categories="Categories">
       <template #items="{category}">
-        <div class="news-item py-2 fs-lg" v-for="(item, index) in category.itemList" :key="index">
-          <span>{{item.caregoryName}}</span>
+        <div class="news-item py-2 fs-lg d-flex" v-for="(item, index) in category.newsList" :key="index">
+          <span class="text-info">[{{item.categoryName}}]</span>
           <span class="mx-2">|</span>
-          <span>{{item.title}}</span>
-          <span class="text-grey">{{item.date}}</span>
+          <span class="flex-1 text-ellipsis pr-3">{{item.title}}</span>
+          <span class="text-grey">{{item.createdAt | date}}</span>
         </div>
       </template>
     </m-list-card>
-    <m-list-card title="新闻资讯" icon="news" :categories="Categories">
+    <!-- <m-list-card title="新闻资讯" icon="news" :categories="Categories">
       <template #items="{category}">
         <div class="news-item py-2 fs-lg" v-for="(item, index) in category.itemList" :key="index">
           <span>{{item.caregoryName}}</span>
@@ -45,12 +45,19 @@
           <span class="text-grey">{{item.date}}</span>
         </div>
       </template>
-    </m-list-card>
+    </m-list-card> -->
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
+  filters: {
+    date(val) {
+      return dayjs(val).format('MM/DD')
+    }
+  },
   data() {
     return {
       swiperOptions: {
@@ -65,49 +72,18 @@ export default {
         },
         loop: true
       },
-      Categories: [
-        {
-          name: '热门',
-          itemList: new Array(5).fill(1).map(() =>({
-            caregoryName: '公告',
-            title: '5月18日体验服停机更新公告',
-            date: '05/18'
-          }))
-        },
-        {
-          name: '新闻',
-          itemList: new Array(5).fill(1).map(() =>({
-            caregoryName: '新闻',
-            title: '5月18日体验服停机更新公告',
-            date: '05/18'
-          }))
-        },
-        {
-          name: '公告',
-          itemList: new Array(5).fill(1).map(() =>({
-            caregoryName: '公告',
-            title: '5月18日体验服停机更新公告',
-            date: '05/18'
-          }))
-        },
-        {
-          name: '发动',
-          itemList: new Array(5).fill(1).map(() =>({
-            caregoryName: '发动',
-            title: '5月18日体验服停机更新公告',
-            date: '05/18'
-          }))
-        },
-        {
-          name: '跟个',
-          itemList: new Array(5).fill(1).map(() =>({
-            caregoryName: '跟个',
-            title: '5月18日体验服停机更新公告',
-            date: '05/18'
-          }))
-        }
-      ]
+      Categories: []
     }
+  },
+  methods: {
+    async fetch() {
+      const res = await this.$http.get('/news/list')
+      this.Categories = res.data
+      // console.log(this.Categories)
+    }
+  },
+  created() {
+    this.fetch()
   }
 }
 </script>
