@@ -36,16 +36,6 @@
         </div>
       </template>
     </m-list-card>
-    <!-- <m-list-card title="新闻资讯" icon="news" :categories="Categories">
-      <template #items="{category}">
-        <div class="news-item py-2 fs-lg" v-for="(item, index) in category.itemList" :key="index">
-          <span>{{item.caregoryName}}</span>
-          <span class="mx-2">|</span>
-          <span>{{item.title}}</span>
-          <span class="text-grey">{{item.date}}</span>
-        </div>
-      </template>
-    </m-list-card> -->
   </div>
 </template>
 
